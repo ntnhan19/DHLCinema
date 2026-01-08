@@ -5,7 +5,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { App as AntApp, ConfigProvider } from "antd";
 import viVN from "antd/locale/vi_VN"; 
 import { ErrorBoundary } from "react-error-boundary";
-
+// Trigger rebuild vercel 1
 // Pages
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
@@ -35,34 +35,34 @@ import "./styles/auth-styles.css";
 // Error Fallback Component
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg text-center">
-        <h2 className="text-2xl font-bold text-red-600 mb-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md p-8 text-center bg-white rounded-lg shadow-lg">
+        <h2 className="mb-4 text-2xl font-bold text-red-600">
           Đã có lỗi xảy ra
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="mb-6 text-gray-600">
           Xin lỗi, ứng dụng gặp sự cố. Vui lòng thử lại.
         </p>
         <div className="space-y-4">
           <button
             onClick={resetErrorBoundary}
-            className="w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
+            className="w-full px-4 py-2 text-white transition-colors bg-red-500 rounded hover:bg-red-600"
           >
             Thử lại
           </button>
           <button
             onClick={() => (window.location.href = "/")}
-            className="w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors"
+            className="w-full px-4 py-2 text-white transition-colors bg-gray-500 rounded hover:bg-gray-600"
           >
             Về trang chủ
           </button>
         </div>
         {process.env.NODE_ENV === "development" && (
           <details className="mt-4 text-left">
-            <summary className="cursor-pointer text-sm text-gray-500">
+            <summary className="text-sm text-gray-500 cursor-pointer">
               Chi tiết lỗi (Dev only)
             </summary>
-            <pre className="mt-2 text-xs text-red-500 bg-red-50 p-2 rounded overflow-auto">
+            <pre className="p-2 mt-2 overflow-auto text-xs text-red-500 rounded bg-red-50">
               {error.message}
             </pre>
           </details>
@@ -98,22 +98,22 @@ function App() {
           <AuthProvider>
             <BookingProvider>
               <AntApp>
-                <div className="app-container min-h-screen flex flex-col">
+                <div className="flex flex-col min-h-screen app-container">
                   <AppHeader className="fixed top-0 left-0 right-0 z-50" />
-                  <main className="main-content-wrapper flex-grow">
+                  <main className="flex-grow main-content-wrapper">
                     <ErrorBoundary
                       FallbackComponent={({ resetErrorBoundary }) => (
-                        <div className="min-h-screen flex items-center justify-center">
-                          <div className="text-center p-8">
-                            <h3 className="text-xl font-bold text-red-600 mb-4">
+                        <div className="flex items-center justify-center min-h-screen">
+                          <div className="p-8 text-center">
+                            <h3 className="mb-4 text-xl font-bold text-red-600">
                               Lỗi tải trang
                             </h3>
-                            <p className="text-gray-600 mb-4">
+                            <p className="mb-4 text-gray-600">
                               Không thể tải nội dung. Vui lòng thử lại.
                             </p>
                             <button
                               onClick={resetErrorBoundary}
-                              className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600"
+                              className="px-6 py-2 text-white bg-red-500 rounded hover:bg-red-600"
                             >
                               Thử lại
                             </button>
