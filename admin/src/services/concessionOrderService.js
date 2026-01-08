@@ -253,7 +253,6 @@ const concessionOrderService = {
       }).toString();
 
       const url = `${apiUrl}/concession/orders/statistics?${query}`;
-      console.log("[getStatistics] Request URL:", url);
 
       const response = await fetch(url, {
         method: "GET",
@@ -274,7 +273,6 @@ const concessionOrderService = {
       }
 
       const json = await response.json();
-      console.log("[getStatistics] Response:", json);
 
       // Kiểm tra cấu trúc response
       if (!json.success) {

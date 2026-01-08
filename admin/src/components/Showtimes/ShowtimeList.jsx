@@ -40,14 +40,12 @@ const ShowtimeList = () => {
     delete filterWithSearch._sort;
     delete filterWithSearch._order;
 
-    console.log("Filter sent to API:", filterWithSearch);
     const response = await showtimeService.getList({
       pagination: { page: currentPage, perPage },
       sort: { field: sortField, order: sortOrder },
       filter: filterWithSearch,
     });
 
-    console.log("API Response:", response);
     // Xử lý dữ liệu từ phản hồi
     const data = response.data || [];
     const total = response.total || 0;

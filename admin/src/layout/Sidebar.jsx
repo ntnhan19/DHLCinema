@@ -13,7 +13,7 @@ import {
   HomeIcon,
   TicketIcon,
   ChevronRightIcon,
-  CreditCardIcon, // Thêm CreditCardIcon
+  CreditCardIcon,
 } from '@heroicons/react/24/outline';
 
 const Sidebar = ({ open, darkMode }) => {
@@ -25,7 +25,6 @@ const Sidebar = ({ open, darkMode }) => {
   // Lấy các resource được khai báo
   const resources = useResourceDefinitions();
   
-  // Lọc resources dựa trên permissions (nếu có)
   const filteredResources = Object.keys(resources).filter(name => {
     const resource = resources[name];
     return !resource.options?.requiredPermission || 

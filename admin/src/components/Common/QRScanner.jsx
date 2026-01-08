@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { Button, useNotify } from 'react-admin';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+
 const QRScanner = () => {
   const [result, setResult] = useState(null);
   const [scanning, setScanning] = useState(false);
@@ -41,7 +43,7 @@ const QRScanner = () => {
               { fps: 10, qrbox: { width: 250, height: 250 } },
               async (decodedText) => {
                 try {
-                  const response = await fetch('http://localhost:3000/api/tickets/validate-qr', {
+                  const response = await fetch(`${BACKEND_URL}/api/tickets/validate-qr`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -119,10 +121,10 @@ const QRScanner = () => {
         />
       )}
       <div id="qr-reader" className="w-full max-w-xs mb-4" style={{ minHeight: '250px' }}>
-        {scanning && <p className="text-center text-sm">Đang tải camera...</p>}
+        {scanning && <p className="text-sm text-center">Đang tải camera...</p>}
       </div>
       {error && typeof error === 'string' && (
-        <p className="text-red-500 text-sm mb-4">{error}</p>
+        <p className="mb-4 text-sm text-red-500">{error}</p>
       )}
       {result && (
         <div className="text-sm">

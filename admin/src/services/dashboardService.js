@@ -41,18 +41,12 @@ const getDashboardData = async ({ startDate, endDate }) => {
       endDate: endDate.toISOString(),
     }).toString();
 
-    console.log("[getDashboardData] Fetching data with dateQuery:", dateQuery);
-
     // Fetch main dashboard data
     const { json } = await httpClient(`${apiUrl}/dashboard?${dashboardQuery}`);
 
     // Fetch ticket stats với format ngày phù hợp
     const ticketStatsResponse = await httpClient(
       `${apiUrl}/tickets/stats?${dateQuery}`
-    );
-    console.log(
-      "[getDashboardData] Ticket stats response:",
-      ticketStatsResponse
     );
 
     // Fetch recent tickets - sửa lại query
@@ -65,18 +59,8 @@ const getDashboardData = async ({ startDate, endDate }) => {
       toDate: endDate.toISOString().split("T")[0],
     }).toString();
 
-    console.log(
-      "[getDashboardData] Fetching recent tickets with query:",
-      recentTicketsQuery
-    );
-
     const recentTicketsResponse = await httpClient(
       `${apiUrl}/tickets?${recentTicketsQuery}`
-    );
-
-    console.log(
-      "[getDashboardData] Recent tickets response:",
-      recentTicketsResponse
     );
 
     // Fetch concession stats với fallback
@@ -136,11 +120,6 @@ const getDashboardData = async ({ startDate, endDate }) => {
       }
     }
 
-    console.log(
-      "[getDashboardData] Processed recent tickets:",
-      recentTicketsData
-    );
-
     const result = {
       ...json,
       topMovies: formattedTopMovies,
@@ -149,8 +128,6 @@ const getDashboardData = async ({ startDate, endDate }) => {
       concessionStats,
       popularConcessionItems,
     };
-
-    console.log("[getDashboardData] Final result:", result);
 
     cache.set(cacheKey, result);
     return result;

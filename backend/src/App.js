@@ -23,9 +23,18 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 const server = http.createServer(app);
+
+const allowedOrigins = [
+  "http://localhost:3001", // Admin Local
+  "http://localhost:3002", // User Local
+  "http://localhost:5173", // Vite default port 
+  "https://dhl-cinema-user.vercel.app",
+  "https://dhl-cinema-admin.vercel.app"
+];
+
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3001", "http://localhost:3002"],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -33,7 +42,18 @@ const io = new Server(server, {
 
 app.use(
   cors({
-    origin: ["http://localhost:3001", "http://localhost:3002"],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // Tạm thời log ra để debug nếu lỗi
+        console.log("Blocked by CORS:", origin);
+        // var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        // return callback(new Error(msg), false);
+        return callback(null, true); 
+      }
+      return callback(null, true);
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

@@ -37,7 +37,6 @@ const authProvider = {
 
   checkAuth: () => {
     try {
-      console.log("authProvider.checkAuth được gọi");
       const auth = localStorage.getItem("auth");
 
       if (!auth) {
@@ -46,11 +45,6 @@ const authProvider = {
       }
 
       const authData = JSON.parse(auth);
-      console.log("Auth data sau khi parse:", {
-        hasToken: !!authData.token,
-        hasUser: !!authData.user,
-        role: authData.user?.role,
-      });
 
       if (
         !authData.token ||
@@ -61,7 +55,6 @@ const authProvider = {
         return Promise.reject("Không có quyền truy cập");
       }
 
-      console.log("Xác thực ADMIN thành công trong authProvider");
       return Promise.resolve();
     } catch (e) {
       console.error("Lỗi trong checkAuth:", e);
@@ -96,8 +89,6 @@ const authProvider = {
       // Gọi API để lấy thông tin người dùng đầy đủ
       const response = await httpClient(`${apiUrl}/users/${auth.user.id}`);
       const userData = response.json;
-
-      console.log("User data từ API:", userData);
 
       return Promise.resolve({
         id: userData.id,

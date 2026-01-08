@@ -2,7 +2,10 @@
 import { fetchUtils } from "react-admin";
 
 // URL cơ sở của API
-const apiUrl = "http://localhost:3000/api";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+const apiUrl = `${BACKEND_URL}/api`;
+
+const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || "http://localhost:3002";
 
 // Hàm kiểm tra xác thực
 const checkAuth = () => {
@@ -24,13 +27,11 @@ const checkAuth = () => {
       console.error("Người dùng không có quyền ADMIN");
       throw new Error("Không có quyền truy cập");
     }
-
-    console.log("Xác thực ADMIN thành công trong httpClient");
     return auth.token;
   } catch (e) {
     console.error("Lỗi khi kiểm tra xác thực:", e);
     // Chuyển hướng đến trang login của user
-    window.location.href = "http://localhost:3002/login?redirect=admin";
+    window.location.href = `${FRONTEND_URL}/login?redirect=admin`;
     throw e;
   }
 };
