@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Tạo instance của axios với cấu hình mặc định
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api", // http://localhost:3000/api
   headers: {
     "Content-Type": "application/json",
   },
