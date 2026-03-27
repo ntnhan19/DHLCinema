@@ -204,7 +204,7 @@ function App() {
                           path="/admin/*"
                           element={
                             <PrivateRoute allowedRoles={["admin"]}>
-                              <Navigate to="http://localhost:3001" replace />
+                              <Navigate to={import.meta.env.VITE_ADMIN_URL || "http://localhost:3001"} replace />
                             </PrivateRoute>
                           }
                         />

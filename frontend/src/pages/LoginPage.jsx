@@ -293,7 +293,7 @@ const LoginForm = ({
           duration: 3,
           icon: <UserOutlined style={{ color: '#52c41a' }} />,
         });
-        const adminUrl = `http://localhost:3001?token=${encodeURIComponent(
+        const adminUrl = `${import.meta.env.VITE_ADMIN_URL || 'http://localhost:3001'}?token=${encodeURIComponent(
           token
         )}&user=${encodeURIComponent(JSON.stringify(user))}`;
         setTimeout(() => {
