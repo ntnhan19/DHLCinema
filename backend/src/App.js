@@ -32,9 +32,25 @@ const allowedOrigins = [
   "https://dhl-cinema-admin.vercel.app"
 ];
 
+// Kiểm tra xem origin có được phép không (bao gồm cả các subdomains của Vercel)
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  // Cho phép tất cả các domain preview của project này trên Vercel
+  if (origin.endsWith(".vercel.app") && origin.includes("dhl-cinema")) return true;
+  if (origin.includes("localhost")) return true;
+  return false;
+};
+
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (isOriginAllowed(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -43,16 +59,13 @@ const io = new Server(server, {
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.indexOf(origin) === -1) {
-        // Tạm thời log ra để debug nếu lỗi
-        console.log("Blocked by CORS:", origin);
-        // var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        // return callback(new Error(msg), false);
-        return callback(null, true); 
+      if (isOriginAllowed(origin)) {
+        return callback(null, true);
       }
-      return callback(null, true);
+      
+      // Log để biết domain nào đang bị từ chối truy cập thực tế
+      console.log("CORS Access Denied for origin:", origin);
+      return callback(new Error('CORS Access Denied'), false);
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
