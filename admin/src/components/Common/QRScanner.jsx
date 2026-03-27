@@ -3,6 +3,7 @@ import { Html5Qrcode } from 'html5-qrcode';
 import { Button, useNotify } from 'react-admin';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+console.log("QRScanner Backend URL:", BACKEND_URL);
 
 const QRScanner = () => {
   const [result, setResult] = useState(null);

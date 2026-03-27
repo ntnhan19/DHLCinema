@@ -3,9 +3,11 @@ import { fetchUtils } from "react-admin";
 
 // URL cơ sở của API
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+console.log("Admin Backend URL:", BACKEND_URL);
 const apiUrl = `${BACKEND_URL}/api`;
 
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || "http://localhost:3002";
+console.log("Admin Frontend URL:", FRONTEND_URL);
 
 // Hàm kiểm tra xác thực
 const checkAuth = () => {

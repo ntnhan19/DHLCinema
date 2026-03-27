@@ -606,8 +606,8 @@ const SeatSelectionPage = () => {
         >
           <h5
             className={`text-center font-medium mb-4 pb-2 border-b ${theme === "dark"
-                ? "text-dark-text-primary border-gray-600"
-                : "text-text-primary border-gray-200"
+              ? "text-dark-text-primary border-gray-600"
+              : "text-text-primary border-gray-200"
               }`}
           >
             Loại ghế
@@ -624,8 +624,8 @@ const SeatSelectionPage = () => {
               </div>
               <span
                 className={`text-sm ${theme === "dark"
-                    ? "text-dark-text-secondary"
-                    : "text-text-secondary"
+                  ? "text-dark-text-secondary"
+                  : "text-text-secondary"
                   }`}
               >
                 Ghế thường
@@ -642,8 +642,8 @@ const SeatSelectionPage = () => {
               </div>
               <span
                 className={`text-sm ${theme === "dark"
-                    ? "text-dark-text-secondary"
-                    : "text-text-secondary"
+                  ? "text-dark-text-secondary"
+                  : "text-text-secondary"
                   }`}
               >
                 Ghế VIP
@@ -660,8 +660,8 @@ const SeatSelectionPage = () => {
               </div>
               <span
                 className={`text-sm ${theme === "dark"
-                    ? "text-dark-text-secondary"
-                    : "text-text-secondary"
+                  ? "text-dark-text-secondary"
+                  : "text-text-secondary"
                   }`}
               >
                 Ghế đôi
@@ -675,8 +675,8 @@ const SeatSelectionPage = () => {
         >
           <h5
             className={`text-center font-medium mb-4 pb-2 border-b ${theme === "dark"
-                ? "text-dark-text-primary border-gray-600"
-                : "text-text-primary border-gray-200"
+              ? "text-dark-text-primary border-gray-600"
+              : "text-text-primary border-gray-200"
               }`}
           >
             Trạng thái ghế
@@ -688,8 +688,8 @@ const SeatSelectionPage = () => {
               </div>
               <span
                 className={`text-sm ${theme === "dark"
-                    ? "text-dark-text-secondary"
-                    : "text-text-secondary"
+                  ? "text-dark-text-secondary"
+                  : "text-text-secondary"
                   }`}
               >
                 Đang chọn
@@ -701,8 +701,8 @@ const SeatSelectionPage = () => {
               </div>
               <span
                 className={`text-sm ${theme === "dark"
-                    ? "text-dark-text-secondary"
-                    : "text-text-secondary"
+                  ? "text-dark-text-secondary"
+                  : "text-text-secondary"
                   }`}
               >
                 Đã đặt/Khóa
@@ -724,8 +724,8 @@ const SeatSelectionPage = () => {
         >
           <span
             className={`italic ${theme === "dark"
-                ? "text-dark-text-secondary"
-                : "text-text-secondary"
+              ? "text-dark-text-secondary"
+              : "text-text-secondary"
               }`}
           >
             Chưa chọn ghế
@@ -849,23 +849,23 @@ const SeatSelectionPage = () => {
     <div className="relative mb-10">
       <div
         className={`w-full mx-auto h-16 rounded-t-lg flex items-center justify-center text-white font-medium shadow-lg ${theme === "dark"
-            ? "bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800"
-            : "bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700"
+          ? "bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800"
+          : "bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700"
           }`}
       >
         MÀN HÌNH
       </div>
       <div
         className={`w-full mx-auto h-4 ${theme === "dark"
-            ? "bg-gradient-to-b from-gray-600 to-transparent"
-            : "bg-gradient-to-b from-gray-500 to-transparent"
+          ? "bg-gradient-to-b from-gray-600 to-transparent"
+          : "bg-gradient-to-b from-gray-500 to-transparent"
           }`}
       ></div>
       <div className="flex justify-center w-full mx-auto mt-3">
         <div
           className={`w-1/2 h-1 ${theme === "dark"
-              ? "bg-gradient-to-r from-transparent via-gray-500 to-transparent"
-              : "bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+            ? "bg-gradient-to-r from-transparent via-gray-500 to-transparent"
+            : "bg-gradient-to-r from-transparent via-gray-300 to-transparent"
             }`}
         ></div>
       </div>
@@ -880,8 +880,8 @@ const SeatSelectionPage = () => {
       return (
         <div
           className={`text-center py-8 ${theme === "dark"
-              ? "text-dark-text-secondary"
-              : "text-text-secondary"
+            ? "text-dark-text-secondary"
+            : "text-text-secondary"
             }`}
         >
           Không có thông tin ghế
@@ -907,8 +907,8 @@ const SeatSelectionPage = () => {
             >
               <div
                 className={`w-8 h-8 flex items-center justify-center rounded-full ${theme === "dark"
-                    ? "bg-dark-bg-secondary text-dark-text-primary"
-                    : "bg-light-bg-secondary text-text-primary"
+                  ? "bg-dark-bg-secondary text-dark-text-primary"
+                  : "bg-light-bg-secondary text-text-primary"
                   } font-bold mr-2`}
               >
                 {row}
@@ -1008,8 +1008,8 @@ const SeatSelectionPage = () => {
             <div className="sticky z-40 top-24">
               <Card
                 className={`content-card shadow-md mb-6 border ${theme === "dark"
-                    ? "border-gray-600 bg-gray-800"
-                    : "border-border-light bg-white"
+                  ? "border-gray-600 bg-gray-800"
+                  : "border-border-light bg-white"
                   }`}
               >
                 {showtimeDetails && showtimeDetails.movie && (
@@ -1031,8 +1031,8 @@ const SeatSelectionPage = () => {
                       <div className="w-2/3">
                         <h3
                           className={`text-lg font-bold mb-3 line-clamp-2 ${theme === "dark"
-                              ? "text-dark-text-primary"
-                              : "text-text-primary"
+                            ? "text-dark-text-primary"
+                            : "text-text-primary"
                             }`}
                         >
                           {showtimeDetails.movie.title}
@@ -1041,16 +1041,16 @@ const SeatSelectionPage = () => {
                           <div className="flex items-start">
                             <span
                               className={`font-medium w-20 ${theme === "dark"
-                                  ? "text-dark-text-primary"
-                                  : "text-text-primary"
+                                ? "text-dark-text-primary"
+                                : "text-text-primary"
                                 }`}
                             >
                               Rạp:
                             </span>
                             <span
                               className={`flex-1 ${theme === "dark"
-                                  ? "text-dark-text-secondary"
-                                  : "text-text-secondary"
+                                ? "text-dark-text-secondary"
+                                : "text-text-secondary"
                                 }`}
                             >
                               {showtimeDetails.hall?.cinema?.name}
@@ -1059,16 +1059,16 @@ const SeatSelectionPage = () => {
                           <div className="flex items-start">
                             <span
                               className={`font-medium w-20 ${theme === "dark"
-                                  ? "text-dark-text-primary"
-                                  : "text-text-primary"
+                                ? "text-dark-text-primary"
+                                : "text-text-primary"
                                 }`}
                             >
                               Phòng:
                             </span>
                             <span
                               className={`flex-1 ${theme === "dark"
-                                  ? "text-dark-text-secondary"
-                                  : "text-text-secondary"
+                                ? "text-dark-text-secondary"
+                                : "text-text-secondary"
                                 }`}
                             >
                               {showtimeDetails.hall?.name}
@@ -1077,16 +1077,16 @@ const SeatSelectionPage = () => {
                           <div className="flex items-start">
                             <span
                               className={`font-medium w-20 ${theme === "dark"
-                                  ? "text-dark-text-primary"
-                                  : "text-text-primary"
+                                ? "text-dark-text-primary"
+                                : "text-text-primary"
                                 }`}
                             >
                               Suất chiếu:
                             </span>
                             <span
                               className={`flex-1 ${theme === "dark"
-                                  ? "text-dark-text-secondary"
-                                  : "text-text-secondary"
+                                ? "text-dark-text-secondary"
+                                : "text-text-secondary"
                                 }`}
                             >
                               {new Date(
@@ -1097,16 +1097,16 @@ const SeatSelectionPage = () => {
                           <div className="flex items-start">
                             <span
                               className={`font-medium w-20 ${theme === "dark"
-                                  ? "text-dark-text-primary"
-                                  : "text-text-primary"
+                                ? "text-dark-text-primary"
+                                : "text-text-primary"
                                 }`}
                             >
                               Thời gian:
                             </span>
                             <span
                               className={`flex-1 ${theme === "dark"
-                                  ? "text-dark-text-secondary"
-                                  : "text-text-secondary"
+                                ? "text-dark-text-secondary"
+                                : "text-text-secondary"
                                 }`}
                             >
                               {new Date(
@@ -1132,15 +1132,15 @@ const SeatSelectionPage = () => {
               </Card>
               <Card
                 className={`content-card shadow-md border ${theme === "dark"
-                    ? "border-gray-600 bg-gray-800"
-                    : "border-border-light bg-white"
+                  ? "border-gray-600 bg-gray-800"
+                  : "border-border-light bg-white"
                   }`}
               >
                 <div className="space-y-4">
                   <h4
                     className={`text-lg font-bold mb-1 ${theme === "dark"
-                        ? "text-dark-text-primary"
-                        : "text-text-primary"
+                      ? "text-dark-text-primary"
+                      : "text-text-primary"
                       }`}
                   >
                     Thông tin đặt vé
@@ -1149,8 +1149,8 @@ const SeatSelectionPage = () => {
                   <div className="space-y-3">
                     <h4
                       className={`font-medium ${theme === "dark"
-                          ? "text-dark-text-primary"
-                          : "text-text-primary"
+                        ? "text-dark-text-primary"
+                        : "text-text-primary"
                         }`}
                     >
                       Ghế đã chọn:
@@ -1159,14 +1159,14 @@ const SeatSelectionPage = () => {
                   </div>
                   <div
                     className={`flex justify-between items-center p-3 rounded-lg ${theme === "dark"
-                        ? "bg-dark-bg-secondary"
-                        : "bg-light-bg-secondary"
+                      ? "bg-dark-bg-secondary"
+                      : "bg-light-bg-secondary"
                       }`}
                   >
                     <span
                       className={`font-medium ${theme === "dark"
-                          ? "text-dark-text-primary"
-                          : "text-text-primary"
+                        ? "text-dark-text-primary"
+                        : "text-text-primary"
                         }`}
                     >
                       Số lượng ghế:
@@ -1182,8 +1182,8 @@ const SeatSelectionPage = () => {
                   >
                     <span
                       className={`font-medium ${theme === "dark"
-                          ? "text-dark-text-primary"
-                          : "text-text-primary"
+                        ? "text-dark-text-primary"
+                        : "text-text-primary"
                         }`}
                     >
                       Tổng tiền:
@@ -1209,8 +1209,8 @@ const SeatSelectionPage = () => {
           <Col xs={24} lg={16} className="order-2 lg:order-2">
             <Card
               className={`content-card shadow-md border ${theme === "dark"
-                  ? "border-gray-600 bg-gray-800"
-                  : "border-border-light bg-white"
+                ? "border-gray-600 bg-gray-800"
+                : "border-border-light bg-white"
                 }`}
             >
               {renderScreen()}
@@ -1220,15 +1220,15 @@ const SeatSelectionPage = () => {
                 ) : (
                   <div
                     className={`py-12 text-center rounded-lg ${theme === "dark"
-                        ? "bg-dark-bg-secondary"
-                        : "bg-light-bg-secondary"
+                      ? "bg-dark-bg-secondary"
+                      : "bg-light-bg-secondary"
                       }`}
                   >
                     <Text
                       type="warning"
                       className={`text-lg ${theme === "dark"
-                          ? "text-dark-text-secondary"
-                          : "text-text-secondary"
+                        ? "text-dark-text-secondary"
+                        : "text-text-secondary"
                         }`}
                     >
                       Không có thông tin ghế cho suất chiếu này

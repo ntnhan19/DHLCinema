@@ -1,5 +1,5 @@
 // admin/src/services/authProvider.js
-import { httpClient, apiUrl } from './httpClient';
+import { httpClient, apiUrl, FRONTEND_URL } from './httpClient';
 
 const authProvider = {
   login: ({ username, password }) => {
@@ -31,7 +31,7 @@ const authProvider = {
   logout: () => {
     localStorage.removeItem("auth");
     localStorage.removeItem("token");
-    window.location.href = "http://localhost:3002/login";
+    window.location.href = `${FRONTEND_URL}/login`;
     return Promise.resolve();
   },
 
@@ -67,7 +67,7 @@ const authProvider = {
     if (status === 401 || status === 403) {
       localStorage.removeItem("auth");
       localStorage.removeItem("token");
-      window.location.href = "http://localhost:3002/login?redirect=admin";
+      window.location.href = `${FRONTEND_URL}/login?redirect=admin`;
       return Promise.reject();
     }
     return Promise.resolve();
