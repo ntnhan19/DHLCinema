@@ -64,4 +64,4 @@ const httpClient = (url, options = {}) => {
 // Kiểm tra xem giá trị có phải là file không
 const isFile = (value) => value instanceof File;
 
-export { apiUrl, checkAuth, httpClient, isFile };
+export { apiUrl, checkAuth, httpClient, isFile, FRONTEND_URL };
