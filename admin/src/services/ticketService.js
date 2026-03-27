@@ -36,10 +36,8 @@ const ticketService = {
       );
 
       return {
-        data: {
-          data: json.data || [],
-          total: json.total || 0,
-        },
+        data: json.data || [],
+        total: json.total || (json.data ? json.data.length : 0),
       };
     } catch (error) {
       console.error("Error fetching tickets:", error);

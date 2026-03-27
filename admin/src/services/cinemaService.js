@@ -20,33 +20,27 @@ const cinemaService = {
       // Nếu response là một mảng trực tiếp
       if (Array.isArray(json)) {
         return {
-          data: {
-            data: json,
-            total: json.length
-          }
+          data: json,
+          total: json.length
         };
       }
 
       // Nếu response có format { data: [...], total: number }
       if (json && json.data) {
         return {
-          data: {
-            data: json.data,
-            total: json.total || json.data.length
-          }
+          data: json.data,
+          total: json.total || json.data.length
         };
       }
 
       // Fallback cho các trường hợp khác
       return {
-        data: {
-          data: [],
-          total: 0
-        }
+        data: [],
+        total: 0
       };
     } catch (error) {
       console.error("Lỗi khi lấy danh sách rạp chiếu phim:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 

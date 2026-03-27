@@ -14,11 +14,11 @@ const userService = {
       });      const { json: response } = await httpClient(`${apiUrl}/users?${queryParams}`);
       // Kiểm tra và chuẩn hóa dữ liệu trả về
       const users = response.users || response.data || response || [];
-      const pagination = response.pagination || {};
-      return formatSuccess({
+      const total = response.pagination?.totalCount || response.total || users.length;
+      return {
         data: users,
-        pagination
-      });
+        total: total
+      };
     } catch (error) {
       throw formatError('Lỗi khi tải danh sách người dùng', error);
     }
@@ -30,7 +30,7 @@ const userService = {
         throw new Error('ID người dùng không hợp lệ');
       }
       const { json: response } = await httpClient(`${apiUrl}/users/${userId}`);
-      return formatSuccess(response);
+      return { data: response.data || response };
     } catch (error) {
       throw formatError('Lỗi khi tải thông tin người dùng', error);
     }
@@ -42,7 +42,7 @@ const userService = {
         method: 'POST',
         body: JSON.stringify(userData),
       });
-      return formatSuccess(response, 'Tạo người dùng thành công');
+      return { data: { ...userData, id: response.id || response._id } };
     } catch (error) {
       throw formatError('Lỗi khi tạo người dùng', error);
     }
@@ -54,7 +54,7 @@ const userService = {
         method: 'PUT',
         body: JSON.stringify(userData),
       });
-      return formatSuccess(response, 'Cập nhật thông tin người dùng thành công');
+      return { data: { ...userData, id: response.id || response._id || id } };
     } catch (error) {
       throw formatError('Lỗi khi cập nhật thông tin người dùng', error);
     }
@@ -65,7 +65,7 @@ const userService = {
       await httpClient(`${apiUrl}/users/${id}`, {
         method: 'DELETE',
       });
-      return formatSuccess(null, 'Xóa người dùng thành công');
+      return { data: { id } };
     } catch (error) {
       throw formatError('Lỗi khi xóa người dùng', error);
     }
@@ -95,10 +95,12 @@ const userService = {
       });
 
       const { json: response } = await httpClient(`${apiUrl}/users/${userId}/my-tickets?${queryParams}`);
-      return formatSuccess({
-        data: response.tickets,
-        pagination: response.pagination
-      });
+      const tickets = response.tickets || response.data || [];
+      const total = response.pagination?.totalCount || tickets.length;
+      return {
+        data: tickets,
+        total: total
+      };
     } catch (error) {
       throw formatError('Lỗi khi tải lịch sử đặt vé', error);
     }
@@ -112,10 +114,12 @@ const userService = {
       });
 
       const { json: response } = await httpClient(`${apiUrl}/users/${userId}/my-reviews?${queryParams}`);
-      return formatSuccess({
-        data: response.reviews,
-        pagination: response.pagination
-      });
+      const reviews = response.reviews || response.data || [];
+      const total = response.pagination?.totalCount || reviews.length;
+      return {
+        data: reviews,
+        total: total
+      };
     } catch (error) {
       throw formatError('Lỗi khi tải lịch sử đánh giá', error);
     }

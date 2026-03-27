@@ -28,24 +28,20 @@ const hallService = {
       // Backend trả về dữ liệu dạng { data: [...], meta: { total, page, limit, totalPages } }
       if (json && json.meta && typeof json.meta.total === 'number') {
         return {
-          data: {
-            data: json.data,
-            total: json.meta.total
-          }
+          data: json.data,
+          total: json.meta.total
         };
       }
 
       // Fallback cho trường hợp response không đúng format
       console.warn('Unexpected API response format:', json);
       return {
-        data: {
-          data: Array.isArray(json) ? json : (json.data || []),
-          total: Array.isArray(json) ? json.length : (json.meta?.total || 0)
-        }
+        data: Array.isArray(json) ? json : (json.data || []),
+        total: Array.isArray(json) ? json.length : (json.meta?.total || 0)
       };
     } catch (error) {
       console.error("Lỗi khi lấy danh sách phòng chiếu:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 

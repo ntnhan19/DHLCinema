@@ -57,24 +57,20 @@ const paymentService = {
       // Backend trả về dữ liệu dạng { data: [...], total: number }
       if (json && typeof json.total === 'number') {
         return {
-          data: {
-            data: json.data,
-            total: json.total
-          }
+          data: json.data,
+          total: json.total
         };
       }
 
       // Fallback cho trường hợp response không đúng format
       console.warn('Định dạng phản hồi API không đúng:', json);
       return {
-        data: {
-          data: Array.isArray(json) ? json : [],
-          total: Array.isArray(json) ? json.length : 0
-        }
+        data: Array.isArray(json) ? json : [],
+        total: Array.isArray(json) ? json.length : 0
       };
     } catch (error) {
       console.error("Lỗi khi lấy danh sách thanh toán:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 
@@ -174,25 +170,21 @@ const paymentService = {
       // Kiểm tra xem json đã là mảng chưa
       if (Array.isArray(json)) {
         return {
-          data: {
-            data: json,
-            total: json.length
-          }
+          data: json,
+          total: json.length
         };
       } else if (json && json.data && Array.isArray(json.data)) {
         return {
-          data: {
-            data: json.data,
-            total: json.total || json.data.length
-          }
+          data: json.data,
+          total: json.total || json.data.length
         };
       } else {
         console.warn('Định dạng phản hồi API không đúng:', json);
-        return { data: { data: [], total: 0 } };
+        return { data: [], total: 0 };
       }
     } catch (error) {
       console.error("Lỗi khi lấy danh sách tham chiếu thanh toán:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 

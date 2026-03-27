@@ -22,26 +22,21 @@ const genreService = {
 
       // Backend trả về dữ liệu dạng { data: [...], total: number }
       if (json && typeof json.total === 'number') {
-        // Đảm bảo dữ liệu được giữ nguyên thứ tự từ backend
         return {
-          data: {
-            data: json.data,
-            total: json.total
-          }
+          data: json.data,
+          total: json.total
         };
       }
 
       // Fallback cho trường hợp response không đúng format
       console.warn('Unexpected API response format:', json);
       return {
-        data: {
-          data: Array.isArray(json) ? json : [],
-          total: Array.isArray(json) ? json.length : 0
-        }
+        data: Array.isArray(json) ? json : [],
+        total: Array.isArray(json) ? json.length : 0
       };
     } catch (error) {
       console.error("Lỗi khi lấy danh sách thể loại:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 
@@ -107,17 +102,15 @@ const genreService = {
       // Kiểm tra xem json đã là mảng chưa
       if (Array.isArray(json)) {
         return {
-          data: {
-            data: json,
-            total: parseInt(headers.get('X-Total-Count') || json.length)
-          }
+          data: json,
+          total: parseInt(headers.get('X-Total-Count') || json.length)
         };
       } else {
         return processApiResponse(json, headers);
       }
     } catch (error) {
       console.error("Lỗi khi lấy danh sách tham chiếu thể loại:", error);
-      return { data: { data: [], total: 0 } };
+      return { data: [], total: 0 };
     }
   },
 
