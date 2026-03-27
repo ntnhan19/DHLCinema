@@ -22,6 +22,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PaymentIcon from '@mui/icons-material/Payment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { apiUrl } from '../../services/httpClient';
 
 const TicketTitle = () => {
   const record = useRecordContext();
@@ -42,7 +43,7 @@ const TicketShow = () => {
   
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      const response = await fetch(`/api/tickets/${id}/status`, {
+      const response = await fetch(`${apiUrl}/tickets/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

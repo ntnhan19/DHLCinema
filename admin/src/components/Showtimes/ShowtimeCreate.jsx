@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet';
 import { useNavigate } from "react-router-dom";
 import { showtimeService } from "../../services/showtimeService";
 import movieService from "../../services/movieService"; 
+import hallService from "../../services/hallService";
+import cinemaService from "../../services/cinemaService";
 import ShowtimeForm from "./ShowtimeForm";
 
 const ShowtimeCreate = () => {
@@ -26,8 +28,16 @@ const ShowtimeCreate = () => {
             sort: { field: 'title', order: 'ASC' },
             filter: {}
           }),
-          fetch('/api/halls').then(res => res.json()),
-          fetch('/api/cinemas').then(res => res.json())
+          hallService.getList({
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: 'name', order: 'ASC' },
+            filter: {}
+          }),
+          cinemaService.getList({
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: 'name', order: 'ASC' },
+            filter: {}
+          })
         ]);
 
         // Lấy mảng data từ kết quả trả về của movieService

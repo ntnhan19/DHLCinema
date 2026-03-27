@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { Button, useNotify } from 'react-admin';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
-console.log("QRScanner Backend URL:", BACKEND_URL);
+import { apiUrl } from '../../services/httpClient';
 
 const QRScanner = () => {
   const [result, setResult] = useState(null);
@@ -44,11 +43,14 @@ const QRScanner = () => {
               { fps: 10, qrbox: { width: 250, height: 250 } },
               async (decodedText) => {
                 try {
-                  const response = await fetch(`${BACKEND_URL}/api/tickets/validate-qr`, {
+                  const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+                  const token = auth.token;
+                  
+                  const response = await fetch(`${apiUrl}/tickets/validate-qr`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                      'Authorization': `Bearer ${token}`,
                     },
                     body: JSON.stringify({ qrData: decodedText }),
                   });

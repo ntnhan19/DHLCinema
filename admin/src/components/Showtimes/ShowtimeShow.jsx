@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { showtimeService, formatShowtimeDisplayData } from "../../services/showtimeService";
+import { apiUrl } from "../../services/httpClient";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import {
@@ -103,7 +104,7 @@ const ShowtimeShow = () => {
         // Fetch movie
         if (showtimeData.movieId) {
           try {
-            const { data: movieData } = await fetch(`/api/movies/${showtimeData.movieId}`).then(res => res.json());
+            const { data: movieData } = await fetch(`${apiUrl}/movies/${showtimeData.movieId}`).then(res => res.json());
             setMovie(movieData);
           } catch (movieError) {
             console.error("Không thể tải dữ liệu phim:", movieError);
@@ -113,13 +114,13 @@ const ShowtimeShow = () => {
         // Fetch hall
         if (showtimeData.hallId) {
           try {
-            const { data: hallData } = await fetch(`/api/halls/${showtimeData.hallId}`).then(res => res.json());
+            const { data: hallData } = await fetch(`${apiUrl}/halls/${showtimeData.hallId}`).then(res => res.json());
             setHall(hallData);
             
             // Fetch cinema
             if (hallData.cinemaId) {
               try {
-                const { data: cinemaData } = await fetch(`/api/cinemas/${hallData.cinemaId}`).then(res => res.json());
+                const { data: cinemaData } = await fetch(`${apiUrl}/cinemas/${hallData.cinemaId}`).then(res => res.json());
                 setCinema(cinemaData);
               } catch (cinemaError) {
                 console.error("Không thể tải dữ liệu rạp chiếu:", cinemaError);

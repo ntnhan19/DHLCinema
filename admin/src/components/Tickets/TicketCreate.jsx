@@ -13,6 +13,7 @@ import {
 } from 'react-admin';
 import { Box, Typography, Grid, Button } from '@mui/material';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
+import { apiUrl } from '../../services/httpClient';
 
 const TicketCreate = () => {
   const notify = useNotify();
@@ -33,7 +34,7 @@ const TicketCreate = () => {
     
     setLoading(true);
     try {
-      const response = await fetch(`/api/seats/showtime/${id}`);
+      const response = await fetch(`${apiUrl}/seats/showtime/${id}`);
       if (!response.ok) {
         throw new Error('Failed to fetch seats');
       }
