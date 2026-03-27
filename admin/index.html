@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/src/assets/styles.css">
   <title>Movie Ticket Booking Admin</title>
   <script>
     // Script chạy trước khi trang được render
@@ -13,6 +12,11 @@
         
         // Lấy thông tin từ URL nếu có
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // Xác định Frontend URL (User trang)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const frontendUrl = isLocal ? 'http://localhost:3002' : 'https://dhl-cinema-user.vercel.app';
+
         if (urlParams.has('token') && urlParams.has('user')) {
           console.log("Đã phát hiện thông tin đăng nhập từ URL");
           const token = urlParams.get('token');
@@ -31,14 +35,14 @@
         const auth = localStorage.getItem('auth');
         if (!auth) {
           console.error('Không tìm thấy thông tin xác thực');
-          window.location.href = 'http://localhost:3002/login?redirect=admin';
+          window.location.href = `${frontendUrl}/login?redirect=admin`;
           return;
         }
         
         const authData = JSON.parse(auth);
         if (!authData.token || !authData.user || authData.user.role?.toUpperCase() !== 'ADMIN') {
           console.error('Không có quyền truy cập trang quản trị');
-          window.location.href = 'http://localhost:3002/login?redirect=admin';
+          window.location.href = `${frontendUrl}/login?redirect=admin`;
         } else {
           console.log('Xác thực ADMIN thành công');
           // Đặt biến để đánh dấu đã kiểm tra xong
