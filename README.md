@@ -4,15 +4,23 @@ A comprehensive web application for online movie ticket booking and management.
 
 ![Movie Ticket Booking](https://img.shields.io/badge/Project-Movie%20Ticket%20Booking-brightgreen)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
+![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-v14+-339933?logo=node.js)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-336791?logo=postgresql)
+![JavaScript](https://img.shields.io/badge/JavaScript-97.9%-F7DF1E?logo=javascript)
 
 ## 📋 Overview
 
 > 🎓 This project was developed as a **university foundation project** by a group of third-year Software Engineering students.  
 > It is **not a commercial product**, but a hands-on academic project to apply full-stack web development knowledge.
 
-**Movie Ticket Booking** is a modern platform that allows users to conveniently book movie tickets online. The project features both user-facing systems for ticket booking and administrative systems for managing movies, screenings, theaters, and booking transactions.
+**Movie Ticket Booking** is a modern platform that allows users to conveniently book movie tickets online. The project features both user-facing systems for ticket booking and administrative systems for theater management, movie scheduling, and transaction oversight.
 
 As part of the system, a **VNPay (sandbox)** integration was implemented to simulate online payment.
+
+### 🌐 Live Demo
+- **User Application**: https://dhl-cinema-user.vercel.app/
+- **Admin Panel**: https://dhl-cinema-admin.vercel.app/ (if available)
 
 ---
 
@@ -43,15 +51,15 @@ As part of the system, a **VNPay (sandbox)** integration was implemented to simu
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **React.js** – Modern UI library for interactive frontend
-- **Tailwind CSS** – Utility-first CSS framework
-- **Ant Design** – React UI component library
+- ![React](https://img.shields.io/badge/-React.js-61DAFB?logo=react&logoColor=white) – Modern UI library for interactive frontend
+- ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white) – Utility-first CSS framework
+- ![Ant Design](https://img.shields.io/badge/-Ant%20Design-0170FE?logo=antdesign&logoColor=white) – React UI component library
 
 ### Backend
-- **Node.js** – JavaScript runtime environment
-- **Express.js** – Web framework for REST APIs
-- **PostgreSQL** – Relational database
-- **Prisma ORM** – Type-safe ORM for PostgreSQL
+- ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white) – JavaScript runtime environment
+- ![Express](https://img.shields.io/badge/-Express.js-000000?logo=express&logoColor=white) – Web framework for REST APIs
+- ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-336791?logo=postgresql&logoColor=white) – Relational database
+- ![Prisma](https://img.shields.io/badge/-Prisma%20ORM-2D3748?logo=prisma&logoColor=white) – Type-safe ORM for PostgreSQL
 - **JWT** – Secure authentication with JSON Web Tokens
 - **VNPay (Sandbox)** – Simulated payment gateway integration
 
@@ -69,8 +77,8 @@ As part of the system, a **VNPay (sandbox)** integration was implemented to simu
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/nthnhan19/Project_MovieTicketBooking_NodeJS.git
-cd Project_MovieTicketBooking_NodeJS
+git clone https://github.com/ntnhan19/DHLCinema.git
+cd DHLCinema
 ```
 
 ### Step 2: Backend Setup
@@ -98,7 +106,7 @@ npm run dev
 
 ## 📂 Project Structure
 ```
-Project_MovieTicketBooking_NodeJS/
+DHLCinema/
 ├── admin/           # Admin Panel (React Admin)
 ├── backend/         # Backend (Node.js + Express)
 ├── frontend/        # Frontend (React.js)
@@ -129,9 +137,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📞 Contact & Support
 
 - **Email**: ngochanpt2018@gmail.com
-- **GitHub**: [Project_MovieTicketBooking_NodeJS](https://github.com/nthnhan19/Project_MovieTicketBooking_NodeJS)
-
-
+- **GitHub**: [ntnhan19/DHLCinema](https://github.com/ntnhan19/DHLCinema)
 
 ---
 
