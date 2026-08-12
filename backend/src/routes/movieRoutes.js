@@ -5,6 +5,7 @@ const movieController = require('../controllers/movieController');
 const { authenticate, authorizeRoles } = require('../middlewares/authMiddlewares');
 
 // Các route công khai
+router.get('/sync-tmdb', movieController.syncTMDb);
 router.get('/', movieController.getAllMovies);
 router.get('/upcoming', movieController.getUpcomingMovies);
 router.get('/now-showing', movieController.getNowShowingMovies);

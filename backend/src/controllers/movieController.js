@@ -165,3 +165,15 @@ exports.getNowShowingMovies = async (req, res) => {
     res.status(500).json({ error: "Lỗi server khi lấy phim đang chiếu" });
   }
 };
+
+// Đồng bộ từ TMDb API (để gọi thủ công từ Postman hoặc frontend)
+exports.syncTMDb = async (req, res) => {
+  try {
+    const { syncMovies } = require('../services/tmdbSyncService');
+    await syncMovies();
+    res.json({ message: "TMDb Sync triggered successfully. Check server logs for details." });
+  } catch (err) {
+    console.error("Lỗi khi trigger TMDb sync:", err);
+    res.status(500).json({ error: "Lỗi trigger TMDb Sync" });
+  }
+};
