@@ -77,9 +77,72 @@ async function syncMovies() {
         const upcomingMovies = upcomingRes.data.results.slice(0, 5);
         await processMovies(upcomingMovies, tmdbGenreMap, false);
 
+        // Dọn dẹp dữ liệu cũ (Xóa suất chiếu/phim quá hạn)
+        await cleanupOldData();
+
         console.log("[TMDb Sync] Hoàn tất đồng bộ dữ liệu phim!");
     } catch (error) {
         console.error("[TMDb Sync] Lỗi khi đồng bộ phim:", error.response?.data || error.stack);
+    }
+}
+
+async function cleanupOldData() {
+    console.log("[TMDb Sync] Bắt đầu dọn dẹp dữ liệu cũ...");
+    const now = new Date();
+    // Giữ lại dữ liệu 7 ngày qua, xóa những gì cũ hơn
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    try {
+        // 1. Tìm các suất chiếu đã kết thúc trước 7 ngày trước
+        const oldShowtimes = await prisma.showtime.findMany({
+            where: { endTime: { lt: sevenDaysAgo } }
+        });
+
+        if (oldShowtimes.length > 0) {
+            const oldShowtimeIds = oldShowtimes.map(st => st.id);
+            
+            // Xóa Ticket liên quan (nếu có)
+            await prisma.ticket.deleteMany({
+                where: { showtimeId: { in: oldShowtimeIds } }
+            });
+
+            // Xóa Ghế
+            await prisma.seat.deleteMany({
+                where: { showtimeId: { in: oldShowtimeIds } }
+            });
+
+            // Xóa Suất chiếu
+            await prisma.showtime.deleteMany({
+                where: { id: { in: oldShowtimeIds } }
+            });
+            console.log(`[TMDb Sync] Đã xóa ${oldShowtimes.length} suất chiếu cũ và dữ liệu liên quan.`);
+        }
+
+        // 2. Xóa các Phim cũ (Release trước đây 30 ngày) MÀ KHÔNG CÒN suất chiếu nào
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        const oldMovies = await prisma.movie.findMany({
+            where: {
+                releaseDate: { lt: thirtyDaysAgo },
+                showtimes: { none: {} } // Không có suất chiếu nào liên kết
+            }
+        });
+
+        if (oldMovies.length > 0) {
+            const oldMovieIds = oldMovies.map(m => m.id);
+            
+            // Đảm bảo không xóa phim nếu có Reviews (xóa review trước)
+            await prisma.review.deleteMany({
+                where: { movieId: { in: oldMovieIds } }
+            });
+
+            await prisma.movie.deleteMany({
+                where: { id: { in: oldMovieIds } }
+            });
+            console.log(`[TMDb Sync] Đã xóa ${oldMovies.length} phim cũ không còn chiếu.`);
+        }
+        
+    } catch (error) {
+        console.error("[TMDb Sync] Lỗi khi dọn dẹp:", error.message);
     }
 }
 
