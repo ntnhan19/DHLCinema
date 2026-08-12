@@ -1,144 +1,96 @@
-# 🎬 Movie Ticket Booking System
+# 🎬 Movie Ticket Booking System (DHL Cinema)
 
-A comprehensive web application for online movie ticket booking and management.
+A comprehensive, full-stack web application for online movie ticket booking and cinema management. 
 
-![Movie Ticket Booking](https://img.shields.io/badge/Project-Movie%20Ticket%20Booking-brightgreen)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react)
-![Node.js](https://img.shields.io/badge/Node.js-v14+-339933?logo=node.js)
+![Node.js](https://img.shields.io/badge/Node.js-v18+-339933?logo=node.js)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-336791?logo=postgresql)
-![JavaScript](https://img.shields.io/badge/JavaScript-97.9%-F7DF1E?logo=javascript)
 
 ## 📋 Overview
 
-> 🎓 This project was developed as a **university foundation project** by a group of third-year Software Engineering students.  
-> It is **not a commercial product**, but a hands-on academic project to apply full-stack web development knowledge.
+**Movie Ticket Booking (DHL Cinema)** is a modern platform that allows users to conveniently book movie tickets online. It features both a user-facing booking interface and an administrative dashboard for theater management, movie scheduling, and transaction oversight.
 
-**Movie Ticket Booking** is a modern platform that allows users to conveniently book movie tickets online. The project features both user-facing systems for ticket booking and administrative systems for theater management, movie scheduling, and transaction oversight.
-
-As part of the system, a **VNPay (sandbox)** integration was implemented to simulate online payment.
+> 🎓 This project was initially developed as a university foundation project by a team of 3 members and has since been upgraded to serve as a **self-sustaining portfolio showcase**.
 
 ### 🌐 Live Demo
 - **User Application**: https://dhl-cinema-user.vercel.app/
-- **Admin Panel**: https://dhl-cinema-admin.vercel.app/ (if available)
+- **Backend API**: https://dhlcine-api.onrender.com/
 
 ---
 
-## ✨ Key Features
+## ✨ Key Features & Technical Highlights
+
+### 🚀 NEW: Self-Healing & Automated Data Sync
+To ensure the project is always ready for demonstration without manual data entry:
+- **TMDb API Integration**: Automatically fetches the latest "Now Playing" and "Upcoming" movies (including posters, trailers, casts, and directors) directly from The Movie Database (TMDb).
+- **Auto-Schedule Generation**: Dynamically generates showtimes and dynamically maps hundreds of cinema seats for new movies.
+- **Smart Cleanup Cronjob**: Automatically purges outdated showtimes and orphaned movies to prevent database bloat over time.
+- **Zero-Maintenance**: The system is designed to "wake up" and restore itself to a perfectly populated state upon the first visit after a long period of inactivity.
 
 ### 👤 User Features
-- **Account Management**
-  - User registration and login
-  - Personal profile editing
-- **Movie Experience**
-  - Browse currently showing movies with details
-  - Book movie tickets with seat selection
-  - **VNPay sandbox payment integration**
-  - Post movie reviews and ratings
+- **Movie Experience**: Browse currently showing movies, watch trailers, and read detailed synopses.
+- **Booking Flow**: Intuitive seat selection map and ticket booking process.
+- **Payment Integration**: Simulated online payment checkout via **VNPay (sandbox)**.
+- **Account Management**: User authentication (JWT), profile management, and ticket history.
 
 ### 🔧 Admin Features
-- **Content Management**
-  - Manage movie catalog (CRUD)
-  - Create and edit screening schedules
-  - Theater and seat configuration
-- **Business Operations**
-  - Manage booking transactions
-  - Create promotions and discounts
-  - Manage user information
+- **Content Management**: Manage movie catalog, cinemas, and halls (CRUD).
+- **Business Operations**: Oversee ticket transactions and generate concession categories (Combos, Snacks, Drinks).
+- **Promotions**: Create and manage discount vouchers and promotional campaigns.
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- ![React](https://img.shields.io/badge/-React.js-61DAFB?logo=react&logoColor=white) – Modern UI library for interactive frontend
-- ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white) – Utility-first CSS framework
-- ![Ant Design](https://img.shields.io/badge/-Ant%20Design-0170FE?logo=antdesign&logoColor=white) – React UI component library
-
-### Backend
-- ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white) – JavaScript runtime environment
-- ![Express](https://img.shields.io/badge/-Express.js-000000?logo=express&logoColor=white) – Web framework for REST APIs
-- ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-336791?logo=postgresql&logoColor=white) – Relational database
-- ![Prisma](https://img.shields.io/badge/-Prisma%20ORM-2D3748?logo=prisma&logoColor=white) – Type-safe ORM for PostgreSQL
-- **JWT** – Secure authentication with JSON Web Tokens
-- **VNPay (Sandbox)** – Simulated payment gateway integration
-
-### Admin Panel
-- **React Admin** – Powerful admin interface for managing system resources
+- **Frontend**: React.js, Tailwind CSS, Ant Design
+- **Backend**: Node.js, Express.js
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JSON Web Tokens (JWT), bcrypt
+- **External APIs**: VNPay (Payment), TMDb API (Movie Metadata)
+- **Deployment**: Vercel (Frontend), Render (Backend), Supabase (Database)
 
 ---
 
 ## 🚀 Installation & Setup
 
 ### Prerequisites
-- Node.js (v14+)
-- npm or yarn
-- PostgreSQL installed and running
+- Node.js (v18+)
+- PostgreSQL
 
-### Step 1: Clone the repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/ntnhan19/DHLCinema.git
 cd DHLCinema
 ```
 
-### Step 2: Backend Setup
+### 2. Backend Setup
 ```bash
 cd backend
 npm install
 cp .env.example .env
-# Configure your database connection in .env
+# Add your DATABASE_URL, TMDB_API_KEY, and VNPAY configs to .env
 npm run dev
 ```
 
-### Step 3: Frontend Setup
+### 3. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 npm run dev
 ```
 
-### Step 4: Admin Panel Setup
+### 4. Admin Panel Setup
 ```bash
 cd ../admin
 npm install
 npm run dev
 ```
 
-## 📂 Project Structure
-```
-DHLCinema/
-├── admin/           # Admin Panel (React Admin)
-├── backend/         # Backend (Node.js + Express)
-├── frontend/        # Frontend (React.js)
-├── .gitignore       # Git ignore file
-├── README.md        # Project documentation
-└── .gitattributes   # Git attributes file
-```
-
-## 🔮 Future Development Goals
-
-- [ ] Complete payment gateway integration
-- [ ] Enhance user interface and experience
-- [ ] Implement advanced movie search functionality
-- [ ] Add personalized movie recommendations
-- [ ] Mobile application development
-- [ ] Multi-language support
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📞 Contact & Support
+## 🤝 Contact & Support
 
 - **Email**: ngochanpt2018@gmail.com
-- **GitHub**: [ntnhan19/DHLCinema](https://github.com/ntnhan19/DHLCinema)
+- **GitHub**: [ntnhan19](https://github.com/ntnhan19)
 
 ---
-
 <p align="center">🎥 <b>Happy Movie Booking!</b> 🍿</p>
