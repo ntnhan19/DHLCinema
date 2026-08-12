@@ -2,6 +2,7 @@ const axios = require('axios');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const cron = require('node-cron');
+const seatService = require('./seatService'); // Import seatService
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
@@ -20,10 +21,8 @@ async function syncGenres() {
             await prisma.genre.upsert({
                 where: { name: genre.name },
                 update: {},
-                create: { id: genre.id, name: genre.name } // Force ID to match TMDb if possible, but auto-increment might conflict. 
-                // Wait, if id is autoincrement, providing id might work or throw error. Better to just use name as unique.
+                create: { id: genre.id, name: genre.name }
             }).catch(async (e) => {
-                // If ID conflict, just create without ID
                 await prisma.genre.upsert({
                     where: { name: genre.name },
                     update: {},
@@ -34,12 +33,10 @@ async function syncGenres() {
         
         console.log("[TMDb Sync] Đồng bộ thể loại thành công!");
         
-        // Trả về map để dễ tìm id thật trong DB
         const allGenres = await prisma.genre.findMany();
         const genreMap = {};
         allGenres.forEach(g => genreMap[g.name] = g.id);
         
-        // Tạo map từ TMDb ID sang DB ID
         const tmdbToDbMap = {};
         genres.forEach(g => {
             tmdbToDbMap[g.id] = genreMap[g.name];
@@ -73,11 +70,11 @@ async function syncMovies() {
         });
 
         // Xử lý phim Đang chiếu (Now Playing)
-        const nowPlayingMovies = nowPlayingRes.data.results.slice(0, 10); // Lấy 10 phim
+        const nowPlayingMovies = nowPlayingRes.data.results.slice(0, 10);
         await processMovies(nowPlayingMovies, tmdbGenreMap, true);
 
         // Xử lý phim Sắp chiếu (Upcoming)
-        const upcomingMovies = upcomingRes.data.results.slice(0, 5); // Lấy 5 phim
+        const upcomingMovies = upcomingRes.data.results.slice(0, 5);
         await processMovies(upcomingMovies, tmdbGenreMap, false);
 
         console.log("[TMDb Sync] Hoàn tất đồng bộ dữ liệu phim!");
@@ -88,15 +85,40 @@ async function syncMovies() {
 
 async function processMovies(movies, genreMap, isNowPlaying) {
     const now = new Date();
-    
-    // Lấy danh sách 3 rạp đầu tiên để tạo suất chiếu
     const halls = await prisma.hall.findMany({ take: 3 });
 
     for (const movie of movies) {
-        // Bỏ qua phim không có poster
         if (!movie.poster_path) continue;
 
-        // Map genres
+        // Fetch thêm chi tiết (đạo diễn, diễn viên, trailer)
+        let director = "Đang cập nhật";
+        let mainActors = "Đang cập nhật";
+        let trailerUrl = null;
+        let duration = 120;
+
+        try {
+            const detailsRes = await axios.get(`${TMDB_BASE_URL}/movie/${movie.id}`, {
+                params: { api_key: TMDB_API_KEY, language: 'vi-VN', append_to_response: 'credits,videos' }
+            });
+            const details = detailsRes.data;
+            
+            duration = details.runtime || 120;
+            
+            if (details.credits && details.credits.crew) {
+                const dir = details.credits.crew.find(c => c.job === 'Director');
+                if (dir) director = dir.name;
+            }
+            if (details.credits && details.credits.cast) {
+                mainActors = details.credits.cast.slice(0, 4).map(c => c.name).join(', ') || "Đang cập nhật";
+            }
+            if (details.videos && details.videos.results) {
+                const trailer = details.videos.results.find(v => v.site === 'YouTube' && v.type === 'Trailer');
+                if (trailer) trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+            }
+        } catch (err) {
+            console.error(`[TMDb Sync] Lỗi khi lấy chi tiết phim ${movie.id}`);
+        }
+
         const movieGenres = (movie.genre_ids || [])
             .map(id => genreMap[id])
             .filter(id => id !== undefined)
@@ -104,66 +126,59 @@ async function processMovies(movies, genreMap, isNowPlaying) {
 
         let releaseDate = new Date(movie.release_date || now);
         
-        // Đảm bảo logic releaseDate cho đúng tab:
-        // Phim đang chiếu phải có releaseDate <= now
-        // Phim sắp chiếu phải có releaseDate > now
         if (isNowPlaying && releaseDate > now) {
-            releaseDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // Hôm qua
+            releaseDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
         } else if (!isNowPlaying && releaseDate <= now) {
-            releaseDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 ngày sau
+            releaseDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         }
 
-        // Upsert Movie
+        const movieData = {
+            title: movie.title,
+            description: movie.overview || "Đang cập nhật...",
+            releaseDate: releaseDate,
+            poster: IMAGE_BASE_URL + movie.poster_path,
+            bannerImage: movie.backdrop_path ? ORIGINAL_IMAGE_BASE_URL + movie.backdrop_path : null,
+            duration: duration,
+            director: director,
+            mainActors: mainActors,
+            trailerUrl: trailerUrl,
+        };
+
         const savedMovie = await prisma.movie.upsert({
-            where: { id: movie.id }, // Dùng luôn ID của TMDb cho tiện
+            where: { id: movie.id },
             update: {
-                title: movie.title,
-                description: movie.overview || "Đang cập nhật...",
-                releaseDate: releaseDate,
-                poster: IMAGE_BASE_URL + movie.poster_path,
-                bannerImage: movie.backdrop_path ? ORIGINAL_IMAGE_BASE_URL + movie.backdrop_path : null,
+                ...movieData,
                 genres: { set: [], connect: movieGenres }
             },
             create: {
                 id: movie.id,
-                title: movie.title,
-                description: movie.overview || "Đang cập nhật...",
-                releaseDate: releaseDate,
-                poster: IMAGE_BASE_URL + movie.poster_path,
-                bannerImage: movie.backdrop_path ? ORIGINAL_IMAGE_BASE_URL + movie.backdrop_path : null,
-                duration: 120, // Fake duration
+                ...movieData,
                 genres: { connect: movieGenres }
             }
         }).catch(async (e) => {
-            // Nếu lỗi ID (ví dụ autoincrement conflict), tạo bằng ID tự động
             return await prisma.movie.create({
                 data: {
-                    title: movie.title,
-                    description: movie.overview || "Đang cập nhật...",
-                    releaseDate: releaseDate,
-                    poster: IMAGE_BASE_URL + movie.poster_path,
-                    bannerImage: movie.backdrop_path ? ORIGINAL_IMAGE_BASE_URL + movie.backdrop_path : null,
-                    duration: 120,
+                    ...movieData,
                     genres: { connect: movieGenres }
                 }
             });
         });
 
-        // Xóa suất chiếu cũ (nếu có) để tạo mới cho sạch
+        // Xóa suất chiếu & Ghế cũ để tránh quá tải DB
+        const oldShowtimes = await prisma.showtime.findMany({ where: { movieId: savedMovie.id } });
+        for (const st of oldShowtimes) {
+            await prisma.seat.deleteMany({ where: { showtimeId: st.id } });
+        }
         await prisma.showtime.deleteMany({
             where: { movieId: savedMovie.id }
         });
 
-        // Tạo suất chiếu nếu là phim Đang Chiếu
+        // Tạo suất chiếu VÀ GHẾ nếu là phim Đang Chiếu
         if (isNowPlaying && halls.length > 0) {
-            const showtimesToCreate = [];
-            
-            // Tạo suất chiếu cho 3 ngày tới
             for (let day = 0; day < 3; day++) {
                 const targetDate = new Date(now.getTime() + day * 24 * 60 * 60 * 1000);
-                targetDate.setMinutes(0, 0, 0); // Tròn giờ
+                targetDate.setMinutes(0, 0, 0);
                 
-                // 3 suất mỗi ngày vào 10:00, 14:00, 19:00
                 const hours = [10, 14, 19];
                 
                 for (let i = 0; i < hours.length; i++) {
@@ -172,30 +187,29 @@ async function processMovies(movies, genreMap, isNowPlaying) {
                     startTime.setHours(hours[i]);
                     
                     const endTime = new Date(startTime);
-                    endTime.setHours(startTime.getHours() + 2); // Cộng 2 tiếng
+                    endTime.setMinutes(startTime.getMinutes() + duration);
 
-                    showtimesToCreate.push({
-                        movieId: savedMovie.id,
-                        hallId: hall.id,
-                        startTime: startTime,
-                        endTime: endTime,
-                        price: 80000 + (hours[i] >= 18 ? 10000 : 0) // Tối đắt hơn 10k
+                    // 1. Tạo showtime
+                    const showtime = await prisma.showtime.create({
+                        data: {
+                            movieId: savedMovie.id,
+                            hallId: hall.id,
+                            startTime: startTime,
+                            endTime: endTime,
+                            price: 80000 + (hours[i] >= 18 ? 10000 : 0)
+                        }
                     });
+
+                    // 2. TẠO GHẾ (CRITICAL FIX)
+                    await seatService.generateSeats(showtime.id, hall);
                 }
             }
-
-            await prisma.showtime.createMany({
-                data: showtimesToCreate
-            });
         }
     }
 }
 
 const initTMDbSync = () => {
-    // Chạy luôn lần đầu tiên
     syncMovies();
-    
-    // Đặt lịch chạy mỗi ngày lúc 01:00 AM
     cron.schedule('0 1 * * *', () => {
         console.log("[Cronjob] Bắt đầu đồng bộ TMDb API lúc 1AM...");
         syncMovies();
